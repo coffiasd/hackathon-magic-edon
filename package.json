@@ -1,5 +1,5 @@
 {
-  "name": "data-analytics-vis",
+  "name": "hackathon-web3-storage",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -11,22 +11,30 @@
   "dependencies": {
     "@rainbow-me/rainbowkit": "^0.6.1",
     "chart.js": "^3.9.1",
+    "classnames": "^2.3.2",
     "daisyui": "^2.31.0",
+    "dom-to-image": "^2.6.0",
     "ethers": "^5.7.1",
     "faker": "^5.5.3",
+    "file-saver": "^2.0.5",
+    "ipfs-http-client": "^59.0.0",
     "next": "12.3.1",
-    "react": "18.2.0",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
     "react-chartjs-2": "^4.3.1",
     "react-countup": "^6.3.1",
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0",
-    "wagmi": "^0.6.7"
+    "wagmi": "^0.6.7",
+    "web3.storage": "^4.4.0"
   },
   "devDependencies": {
+    "@types/react": "18.0.24",
     "autoprefixer": "^10.4.12",
     "eslint": "8.23.1",
     "eslint-config-next": "12.3.1",
     "postcss": "^8.4.16",
+    "react-nice-avatar": "^1.2.4",
     "tailwindcss": "^3.1.8"
   }
 }
