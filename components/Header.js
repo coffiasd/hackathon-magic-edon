@@ -19,9 +19,9 @@ export default function Header() {
             <div className="flex-1 ml-3 text-gray-50">
                 <ul className='flex flex-row justify-between gap-6'>
                     <li><a href="#"><FaGoogleDrive size="2rem" /></a></li>
-                    <li><a className={styles.leftToRight} href="https://twitter.com/coffiasd"><FaTwitter size="1rem" className='m-1' />TWITTER</a></li>
-                    <li><a className={styles.leftToRight} href="https://github.com/coffiasd"><FaGithub size="1rem" className='m-1' />GITHUB</a></li>
-                    <li><a className={styles.leftToRight} href="#"><FaYoutube size="1rem" className='m-1' />YOUTUBE</a></li>
+                    <li><a className={styles.leftToRight} href="https://twitter.com/coffiasd"><FaTwitter size="1rem" className='m-0.5' />TWITTER</a></li>
+                    <li><a className={styles.leftToRight} href="https://github.com/coffiasd"><FaGithub size="1rem" className='m-0.5' />GITHUB</a></li>
+                    <li><a className={styles.leftToRight} href="#"><FaYoutube size="1rem" className='m-0.5' />YOUTUBE</a></li>
                 </ul>
             </div>
 

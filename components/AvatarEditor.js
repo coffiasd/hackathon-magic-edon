@@ -26,8 +26,9 @@ export default function AvatarEditor() {
   const [readyMint, setReadyMint] = useState(false);
   const [isCodeShow, setIsCodeShow] = useState(false);
   const [isLoading, setIsLoading] = useState("");
+  const [statusIsLoading, setStatusIsLoading] = useState("");
   const [upLoadBtn, setUpLoadBtn] = useState("done");
-  const [cid, setCid] = useState("bafybeif7qymwnws5sdg43jon3tsgjovp3nhwizd7bixwnqrkfd7babpbyu");
+  const [cid, setCid] = useState("");
   const myDefaultOptions = genDefaultOptions(defaultOptions)
   const [modal, setModal] = useState("");
   /// interact with blockchain
@@ -62,6 +63,7 @@ export default function AvatarEditor() {
     return new Web3Storage({ token: getAccessToken() })
   }
 
+  /// store your pic
   async function storeWithProgress() {
     setIsLoading("loading");
     setUpLoadBtn("uploading");
@@ -120,7 +122,7 @@ export default function AvatarEditor() {
     config[type] = opts[newIdx]
     setConfig((prev) => ({
       ...prev,
-      'faceColor': opts[newIdx],
+      type: opts[newIdx],
     }));
   }
 
@@ -142,8 +144,7 @@ export default function AvatarEditor() {
 
   const getTokenURI = async () => {
     const tu = await connectedContract.getTokenURI();
-    // console.log(parseInt(ethers.utils.hexlify(tu)));
-    return parseInt(ethers.utils.hexlify(tu)) + 1;
+    return parseInt(ethers.utils.hexlify(tu));
   }
 
   /// public mint function.
@@ -154,7 +155,7 @@ export default function AvatarEditor() {
     //set timeout
     setTimeout(() => {
       setIsLoading("");
-    }, 7000);
+    }, 12000);
 
     if (!isConnected) {
       alertService.info("please connect wallet", options);
@@ -164,7 +165,7 @@ export default function AvatarEditor() {
 
     if (chain.id != 80001) {
       setIsLoading("");
-      alertService.info("please switch to  mumbai net", options);
+      alertService.info("please switch to mumbai net", options);
       return;
     }
 
@@ -175,6 +176,7 @@ export default function AvatarEditor() {
     });
 
     setReadyMint(false);
+    setIsLoading("");
     modalClick();
   }
 
@@ -194,6 +196,21 @@ export default function AvatarEditor() {
     window.open(url);
   }
 
+  /// check <cid> status
+  async function checkStatus() {
+    setStatusIsLoading("loading");
+    const client = makeStorageClient()
+    const status = await client.status(cid)
+    console.log(status);
+    if (status) {
+      console.log(status);
+      alertService.info("Status:" + status.pins[0].status + ",PeerId:" + status.pins[0].peerId, options);
+    } else {
+      alertService.info("not ready", options);
+    }
+    setStatusIsLoading("");
+  }
+
   return (
     <div className="flex flex-col justify-center items-center">
 
@@ -211,7 +228,7 @@ export default function AvatarEditor() {
         </div>
       </div>
 
-      <h1 className="text-5xl font-bold mb-10">Generate Your NFT</h1>
+      <h1 className="text-5xl font-bold mb-10">Generate Your Own NFT</h1>
 
       <div id="myAvatar">
         <Avatar style={{ width: "10rem", height: "10rem" }} {...config} />
@@ -313,13 +330,17 @@ export default function AvatarEditor() {
       </div>
 
       <div className="inline-flex">
-        {readyMint ? (<button className={`btn btn-wide btn-info gap-2 text-gray-50 mb-40 ${isLoading}`} onClick={() => publicMint(cid)}>
+        {readyMint ? (<button className={`btn btn-wide btn-info gap-2 text-gray-50 mb-10 ${isLoading}`} onClick={() => publicMint(cid)}>
           MINT
-        </button>) : (<button className={`btn btn-wide btn-info gap-2 text-gray-50 mb-40 ${isLoading}`} onClick={() => storeWithProgress()}>
+        </button>) : (<button className={`btn btn-wide btn-info gap-2 text-gray-50 mb-10 ${isLoading}`} onClick={() => storeWithProgress()}>
           {upLoadBtn}
         </button>)
         }
       </div>
+
+      <>
+        {cid ? (<button className={`btn btn-wide btn-secondary gap-2 text-gray-50 mb-10 ${statusIsLoading}`} onClick={() => checkStatus()}>Status</button>) : ""}
+      </>
     </div >
   );
 }

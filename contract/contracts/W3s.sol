@@ -74,9 +74,7 @@ contract W3s is ERC721, ERC721URIStorage, Pausable, Ownable {
     }
 
     function getTokenURI() public view returns (uint256) {
-        //require not claimed
-        require(ownerToTokenID[msg.sender] >= 0, "You not already claimed!");
-        return ownerToTokenID[msg.sender];
+        return _tokenIdCounter.current();
     }
 
     function _beforeTokenTransfer(
