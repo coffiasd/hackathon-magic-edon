@@ -63,7 +63,6 @@ contract W3s is ERC721, ERC721URIStorage, Pausable, Ownable {
         require(msg.value >= _publicMintPrice, "don't have enough token");
 
         uint256 tokenId = _tokenIdCounter.current();
-
         _tokenIdCounter.increment();
         _safeMint(msg.sender, tokenId);
         //get metadata

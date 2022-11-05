@@ -11,7 +11,6 @@ import Nose from "./src/nose/index.js"
 import Mouth from "./src/mouth/index.js"
 import Shirt from "./src/shirt/index.js"
 import classnames from 'classnames'
-import Image from 'next/image'
 // import { FaArchive, FaLock } from "react-icons/fa";
 import { defaultOptions } from "./src/utils"
 import domtoimage from "dom-to-image";
@@ -29,7 +28,6 @@ export default function AvatarEditor() {
   const [isLoading, setIsLoading] = useState("");
   const [upLoadBtn, setUpLoadBtn] = useState("done");
   const [cid, setCid] = useState("bafybeif7qymwnws5sdg43jon3tsgjovp3nhwizd7bixwnqrkfd7babpbyu");
-  const [imageCid, setImageCid] = useState("bafybeif7qymwnws5sdg43jon3tsgjovp3nhwizd7bixwnqrkfd7babpbyu");
   const myDefaultOptions = genDefaultOptions(defaultOptions)
   const [modal, setModal] = useState("");
   /// interact with blockchain
@@ -67,24 +65,6 @@ export default function AvatarEditor() {
   async function storeWithProgress() {
     setIsLoading("loading");
     setUpLoadBtn("uploading");
-
-    //set timeout
-    setTimeout(() => {
-      setIsLoading("");
-    }, 5000);
-
-    //store image
-    await storeWithImage();
-    //store json
-    // await storeWithJsonFile();
-
-    setIsLoading("");
-    setReadyMint(true);
-    alertService.info("upload success", options);
-  }
-
-  /// storage files
-  async function storeWithImage() {
     const scale = 2;
     const node = document.getElementById("myAvatar");
     const blob = await domtoimage.toBlob(node, {
@@ -96,12 +76,10 @@ export default function AvatarEditor() {
       width: node.offsetWidth * scale
     });
 
-    // show the root cid as soon as it's ready
-    const onRootCidReady = (cid) => {
-      setCid(cid);
-      setImageCid(cid);
-      console.log('uploading files with cid:', cid)
-    }
+    //set timeout
+    setTimeout(() => {
+      setIsLoading("");
+    }, 7000);
 
     const files = [
       new File([blob], 'avatar.png'),
@@ -109,55 +87,21 @@ export default function AvatarEditor() {
 
     // when each chunk is stored, update the percentage complete and display
     const totalSize = files.map(f => f.size).reduce((a, b) => a + b, 0)
-    // const totalSize = (f => f.size).reduce((a, b) => a + b, 0)
     let uploaded = 0
 
     const onStoredChunk = size => {
       uploaded += size
       const pct = 100 * (uploaded / totalSize)
       console.log(`Uploading... ${pct.toFixed(2)}% complete`)
-      // alertService.info("upload success", options);
+      setIsLoading("");
+      setReadyMint(true);
+      alertService.info("upload success", options);
     }
-
-    // makeStorageClient returns an authorized web3.storage client instance
-    const client = makeStorageClient()
-
-    // client.put will invoke our callbacks during the upload
-    // and return the root cid when the upload completes
-    return client.put(files, { onRootCidReady, onStoredChunk })
-  }
-
-
-  async function storeWithJsonFile() {
-    // set json format
-    const obj = {
-      "name": "w3s-nft",
-      "description": "A nft hackathon project from ayden lee",
-      "image": "https://" + cid + ".ipfs.w3s.link/avatar.png",
-      "attributes": genCodeString()
-    }
-
-    const jsonFile = new Blob([JSON.stringify(obj)], { type: 'application/json' })
-    const files = [
-      new File([jsonFile], 'avatar.json')
-    ]
 
     // show the root cid as soon as it's ready
     const onRootCidReady = (cid) => {
       setCid(cid);
       console.log('uploading files with cid:', cid)
-    }
-
-    // when each chunk is stored, update the percentage complete and display
-    const totalSize = files.map(f => f.size).reduce((a, b) => a + b, 0)
-    // const totalSize = (f => f.size).reduce((a, b) => a + b, 0)
-    let uploaded = 0
-
-    const onStoredChunk = size => {
-      uploaded += size
-      const pct = 100 * (uploaded / totalSize)
-      console.log(`Uploading... ${pct.toFixed(2)}% complete`)
-      alertService.info("upload success", options);
     }
 
     // makeStorageClient returns an authorized web3.storage client instance
@@ -199,18 +143,18 @@ export default function AvatarEditor() {
   const getTokenURI = async () => {
     const tu = await connectedContract.getTokenURI();
     // console.log(parseInt(ethers.utils.hexlify(tu)));
-    return parseInt(ethers.utils.hexlify(tu));
+    return parseInt(ethers.utils.hexlify(tu)) + 1;
   }
 
   /// public mint function.
-  const publicMint = async () => {
+  const publicMint = async (sendCid) => {
     // change loading state
     setIsLoading("loading");
 
     //set timeout
     setTimeout(() => {
       setIsLoading("");
-    }, 5000);
+    }, 7000);
 
     if (!isConnected) {
       alertService.info("please connect wallet", options);
@@ -224,7 +168,7 @@ export default function AvatarEditor() {
       return;
     }
 
-    await connectedContract.publicMint(cid, genCodeString(), {
+    await connectedContract.publicMint(sendCid, genCodeString(), {
       value: ethers.utils.parseEther("0.01"),
       // nonce: window.ethersProvider.getTransactionCount(address, "latest"),
       gasLimit: ethers.utils.hexlify(0x100000), //100000
@@ -255,8 +199,7 @@ export default function AvatarEditor() {
 
       <div className={`modal ${modal}`} id="my-modal-2">
         <div className="card glass">
-          {/* <figure><img src="https://placeimg.com/400/225/arch" alt="car!" /></figure> */}
-          <figure><Image src={`https://${imageCid}.ipfs.w3s.link/avatar.png`} width={100} height={100} /></figure>
+          <figure><Avatar style={{ width: "10rem", height: "10rem" }} {...config} /></figure>
           <div className="card-body">
             <h2 className="card-title">Congratulations!</h2>
             <p>successful mint your NFT</p>
