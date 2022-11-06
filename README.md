@@ -29,7 +29,48 @@ Users can generate a unique svg avatar image by choosing various attributes.Afte
 
 ![alt "result"](/public/images/w3s.png)
 
-### 3.team member and contact
+### 3.smart contract
+
+> smart contract content
+
+<https://github.com/coffiasd/hackathon-web3-storage/blob/main/contract/contracts/W3s.sol>
+
+> install hardhat tools
+
+```
+cd contract
+npm install
+```
+
+> set hardhat.config.js file
+
+```
+module.exports = {
+  solidity: "0.8.9",
+  networks: {
+    mumbai: {
+      url: process.env.TESTNET_RPC,
+      accounts: [process.env.PRIVATE_KEY]
+    },
+  },
+  etherscan: {
+    apiKey: {
+      polygonMumbai: process.env.POLYGONSCAN_API_KEY
+    }
+  }
+};
+```
+
+> deploy smart contract to mumbai net using hardhat tool
+
+```
+npx hardhat --network mumbai run ./script/deploy.js
+```
+
+After deploy the smart contract we'll get a contract address which is used in front-end config file.Furthormore we'll generate a ABI json file,move it to front-end utils directory.
+<https://github.com/coffiasd/hackathon-web3-storage/blob/main/utils/mint.json>
+
+### 4.team member and contact
 
 > Team member
 
@@ -47,7 +88,9 @@ Users can generate a unique svg avatar image by choosing various attributes.Afte
 
 ### store svg to web3.storage
 
-> init a new instance with env config token
+<https://github.com/coffiasd/hackathon-web3-storage/blob/main/components/AvatarEditor.js>
+
+> init a new client instance with env config token
 
 ```
   /// get web3.storage config token
@@ -121,7 +164,7 @@ Users can generate a unique svg avatar image by choosing various attributes.Afte
   }
 ```
 
-> get cid status
+> get file status by **cid**
 
 ```
   /// check <cid> status
