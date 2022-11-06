@@ -116,7 +116,7 @@ function Alert({ id, fade }) {
   if (!alerts.length) return null;
 
   return (
-    <div className="flex fixed w-screen">
+    <div>
       {alerts.map((alert, index) => (
         <div
           className="alert alert-warning shadow-lg z-50 fixed m-auto w-auto flex justify-center"
