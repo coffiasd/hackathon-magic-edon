@@ -31,6 +31,10 @@ Users can generate a unique svg avatar image by choosing various attributes.Afte
 
 ### 3.smart contract
 
+> smart contract address
+
+Ploygon Mumbai: **0xDe3C417aDc211e0b0a4140BA704a333E3A824dBF**
+
 > smart contract content
 
 <https://github.com/coffiasd/hackathon-web3-storage/blob/main/contract/contracts/W3s.sol>
@@ -183,3 +187,5 @@ After deploy the smart contract we'll get a contract address which is used in fr
 ```
 
 ## Show case
+
+<https://youtu.be/-cDZH83SQ6Y>
