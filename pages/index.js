@@ -3,7 +3,7 @@ import Footer from '../components/Footer';
 import dynamic from 'next/dynamic';
 import React from "react";
 import Banner from '../components/Banner';
-import { Alert } from '../components/Alert';
+import { Alert } from '../components/Alert.jsx';
 
 const Header = dynamic(() => import('../components/Header'), {
   ssr: false,

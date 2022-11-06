@@ -9,9 +9,6 @@ const nextConfig = {
         hostname: '**.ipfs.w3s.link',
       },
     ],
-  },
-  resolve: {
-    extensions: ['', '.js', '.jsx']
   }
 }
 
