@@ -65,8 +65,11 @@ export default function AvatarEditor() {
 
   /// store your pic
   async function storeWithProgress() {
+    // set btn state
     setIsLoading("loading");
     setUpLoadBtn("uploading");
+
+    //get image info
     const scale = 2;
     const node = document.getElementById("myAvatar");
     const blob = await domtoimage.toBlob(node, {
@@ -83,6 +86,7 @@ export default function AvatarEditor() {
       setIsLoading("");
     }, 7000);
 
+    //add file
     const files = [
       new File([blob], 'avatar.png'),
     ]
@@ -95,6 +99,7 @@ export default function AvatarEditor() {
       uploaded += size
       const pct = 100 * (uploaded / totalSize)
       console.log(`Uploading... ${pct.toFixed(2)}% complete`)
+      //change btn state 
       setIsLoading("");
       setReadyMint(true);
       alertService.info("upload success", options);
@@ -203,7 +208,6 @@ export default function AvatarEditor() {
     const status = await client.status(cid)
     console.log(status);
     if (status) {
-      console.log(status);
       alertService.info("Status:" + status.pins[0].status + ",PeerId:" + status.pins[0].peerId, options);
     } else {
       alertService.info("not ready", options);
