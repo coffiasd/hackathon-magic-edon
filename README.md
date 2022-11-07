@@ -1,6 +1,8 @@
 # StorageWizard: The Best Use Of NFT.Storage Or Web3.Storage project
 
-<https://gitcoin.co/issue/29523>
+gitcoin address: <https://gitcoin.co/issue/29523>
+
+front-page address : <https://hackathon-web3-storage.vercel.app/>
 
 ## Project Description
 
